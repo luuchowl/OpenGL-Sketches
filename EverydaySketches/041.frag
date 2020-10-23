@@ -1,13 +1,13 @@
-// Author @patriciogv - 2015
-// http://patriciogonzalezvivo.com
 
-#ifdef GL_ES
-precision mediump float;
-#endif
 
 uniform vec2 u_resolution;
-uniform vec2 u_mouse;
 uniform float u_time;
+
+#define NUM_OCTAVES 10
+
+#define PI 3.14159265359
+#define TWO_PI 6.28318530718
+
 
 float random (in vec2 _st) {
     return fract(sin(dot(_st.xy,
@@ -34,7 +34,6 @@ float noise (in vec2 _st) {
             (d - b) * u.x * u.y;
 }
 
-#define NUM_OCTAVES 5
 
 float fbm ( in vec2 _st) {
     float v = 0.0;
@@ -52,36 +51,67 @@ float fbm ( in vec2 _st) {
 }
 
 void main() {
-    vec2 st = gl_FragCoord.xy/u_resolution.xy*10.;
-     //st += st * abs(sin(u_time*0.1)*3.0);
+    vec2 st = gl_FragCoord.xy/u_resolution.xy;
+    st.x *= u_resolution.x/u_resolution.y;
+
+
+    st = st * 2.0 - vec2(1.0);
+    //st.y += 1.0;
+    st.y *= 1.0;
+
+    //float a = atan(st.x, st.y) * TWO_PI / 2.0;
+    //float r = TWO_PI/float(N);
+    //float rad = length(st);
+
+    //st = vec2(a, rad);
+    //st += st * (sin(u_time*2.1)*3.0);
+
+
     vec3 color = vec3(0.0);
 
+    float f = fbm(st * 2.0);
+    st = vec2(fbm(st ));
+    st -= u_time * 0.51 ;
+    float size = 0.5 ;
+    st += f * size;
+    f = fbm(st * 2.0);
+
+  st += f * size;
+    f = fbm(st * 2.0);
+    st += f * size;
+    f = fbm(st * 2.0);
+    st += f * size;
+    f = fbm(st * 2.0);
+    st += f * size;
+    f = fbm(st * 2.0);
+    st += f * size;
+    f = fbm(st * 2.0);
+
+
     vec2 q = vec2(0.);
-    q.x = fbm( st + 0.00*u_time);
+    q.x = fbm( st + 0.30*u_time);
     q.y = fbm( st + vec2(1.0));
 
     vec2 r = vec2(0.);
-    r.x = fbm( st + 1.0*q + vec2(1.7,9.2)+ 0.15*u_time );
-    r.y = fbm( st + 1.0*q + vec2(8.3,2.8)+ 0.126*u_time);
+    r.x = fbm( st + 1.0*q + vec2(1.7,9.2)+ 0.45*u_time );
+    r.y = fbm( st + 1.0*q + vec2(8.3,2.8)+ 0.426*u_time);
 
-    float f = fbm(st+r);
+    //float f = fbm(st+r);
+    f = fbm(st+f);
 
-    color = mix(vec3(0.101961,0.619608,0.666667),
-                vec3(0.666667,0.666667,0.498039),
+
+    color = mix(vec3(0.901961,0.819608,0.1066667),
+                vec3(0.966667,0.966667,0.198039),
                 clamp((f*f)*4.0,0.0,1.0));
 
     color = mix(color,
-                vec3(0,0,0.164706),
+                vec3(0.9 * sin(u_time),0.5,0.364706),
                 clamp(length(q),0.0,1.0));
 
     color = mix(color,
-                vec3(0.10667,1,1),
+                vec3(0.36667, 0.3, 0.9),
                 clamp(length(r.x),0.0,1.0));
 
-
     gl_FragColor = vec4((f*f*f+.6*f*f+.5*f)*color,1.);
-
-
-
-    //gl_FragColor = vec4(color, 1.0);
+    //gl_FragColor = vec4(vec3(f), 1.0);
 }

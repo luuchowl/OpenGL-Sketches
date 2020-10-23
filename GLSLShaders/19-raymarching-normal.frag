@@ -41,7 +41,8 @@ void main(){
   vec3 normal = estimateNormal(p);
   //color = vec3(1.0 - dist/10.);
 
-  vec3 color = abs(normal);
+  //vec3 color = abs(normal);
+  vec3 color = normal;
 
   gl_FragColor = vec4(color, 1.0);
 }
