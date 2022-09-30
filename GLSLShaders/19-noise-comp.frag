@@ -1,6 +1,3 @@
-// Author @patriciogv - 2015
-// http://patriciogonzalezvivo.com
-
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -80,8 +77,4 @@ void main() {
 
 
     gl_FragColor = vec4((f*f*f+.6*f*f+.5*f)*color,1.);
-
-
-
-    //gl_FragColor = vec4(color, 1.0);
 }

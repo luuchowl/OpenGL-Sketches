@@ -1,4 +1,6 @@
-
+#ifdef GL_ES
+precision mediump float;
+#endif
 
 uniform vec2 u_resolution;
 uniform float u_time;
@@ -57,7 +59,7 @@ void main()
     c.x += -0.008 * sin( u_time);
     //c += 0.02;
     z = mix(vec2 (z.x * z.x  - z.y * z.y  , 2.0* z.y * z.x  ) + c * 1.0, vec2 (z.x * z.x - z.y * z.y ,2.* z.x * z.y ) + c * 1.0, 0.0);
-    //z = z + c;
+    z = z + c;
     //z *= z.y + z.x - z.x * z.x;/
     z-= 0.3;
     if(length(z ) > 2.0) break;
@@ -67,13 +69,13 @@ void main()
   float f = iter/max_iter;
 
 
-  vec3 color = vec3(f);
+  vec3 color = vec3(z.x, z.y, c);
   //color.r = max(color.r, 0.2);
   //color.b = min(color.b, 0.5);
   color.b = (cos(u_time + color.r * 10.0) + 1.0) * 0.2 ;
   color.g *= 0.2;
   //color.b = (sin(u_time + color.r * 5.0) + 1.0) * 0.5;
-  //color.g = (sin(u_time + color.r * 5.0) + 1.0) * 0.5 - 0.5;
+  color.g = (sin(u_time + color.r * 5.0) + 1.0) * 0.5 - 0.5;
   //color.b *= 0.4;
 
   gl_FragColor = vec4(color, 0.0);
