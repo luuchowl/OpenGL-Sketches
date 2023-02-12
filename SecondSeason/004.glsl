@@ -33,10 +33,9 @@ void main()
         //
 
     st += d;
-    st *= 50.0;
-    float T = floor(st.x) + floor(st.y);
-    st = rotate2D(st, 0.01 + T);
-    
+    st *= 3.0;
+    float T = fract((floor(st.x) + floor(st.y))/30.0 * 2.0 ) * 30.0  ;
+    st = rotate2D(st, 0.004 * T * u_time);
     st.x = cos(st.x + 1.5) * 1.0;
     st.y = sin(st.y + 1.5) * 1.0;
     float square = smoothstep(fract(st.x), 0.9  * 0.4, 0.9);
