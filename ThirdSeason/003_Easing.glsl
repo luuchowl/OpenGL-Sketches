@@ -37,7 +37,7 @@ float quartic(float t)
     if(t < 1.0)
         return 0.5*pow(t, 4.0);
     t -= 2.0;
-    return 0.5 * (pow(t, 8.0)- 2.0);
+     return -0.5 * (pow(t, 8.0)- 2.0);
     
 }
 
