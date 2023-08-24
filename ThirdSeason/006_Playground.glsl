@@ -7,7 +7,7 @@ uniform vec2 u_resolution;
 uniform float u_time;
 uniform vec2 u_mouse;
 
-#define NUM_OCTAVES 10
+#define NUM_OCTAVES 4
 
 #define PI 3.14159265359
 #define TWO_PI 6.28318530718
@@ -57,7 +57,7 @@ float fbm ( in vec2 _st) {
 void main() {
     vec2 st = gl_FragCoord.xy/u_resolution.xy;
     //st.xy += u_mouse.xy / u_resolution.xy * -1.0 + vec2(0.5, 0.5);
-    st.xy += vec2(cos(u_time),sin(u_time)) * 0.3;
+    //st.xy += vec2(cos(u_time),sin(u_time)) * 0.3;
     st.x *= u_resolution.x/u_resolution.y;
     
 
@@ -68,7 +68,7 @@ void main() {
 
 
     float rad = length(st) + sin(u_time);
-    float a = atan(st.x, st.y) * TWO_PI / 2.0 - cos(u_time)  * 3.2 * rad;
+    float a = atan(st.x, st.y) * TWO_PI / 2.0 - sin(-u_time)  * 3.2 * rad;
     //float ra = TWO_PI/float(N);
 
     st = vec2(a, rad);
