@@ -5,6 +5,7 @@ precision mediump float;
 
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform vec2 u_mouse;
 
 #define NUM_OCTAVES 10
 
@@ -56,6 +57,7 @@ float fbm ( in vec2 _st) {
 void main() {
     vec2 st = gl_FragCoord.xy/u_resolution.xy;
     st.x *= u_resolution.x/u_resolution.y;
+    st.xy += u_mouse.xy;
 
 
     st = st * 2.0 - vec2(1.0);
