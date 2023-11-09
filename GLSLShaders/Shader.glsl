@@ -97,7 +97,7 @@ void main()
     color.rgb = mix(color.rgb, colorB, box);
     color.rgb = mix(color.rgb, gradient, shape);
 
-    color.rgb = mix(color.rgb, gradient, u_time);
+    color.rgb = mix(color.rgb, gradient, sin(u_time) * 2.0);
     //Output de cor
     gl_FragColor = color;
     
