@@ -16,10 +16,13 @@ void main()
 {
     vec2 st = gl_FragCoord.xy / u_resolution;
 
+    st *= 1.2;
+    st -= 0.1;
+
   
 
     vec3 finalCol = vec3(0.0);
-    float t = u_time * 1.5 - 1.0  + sin(u_time *1.6) * 0.5;
+    float t = u_time * 1.5 - 10.0  + sin(u_time *1.6) * 0.5;
 
     for(int i = 0; i<3; i++)
     {
@@ -50,6 +53,7 @@ void main()
     //finalCol.rg *= 1.0;
     }
     //finalCol.r = noise;
-    finalCol +=  mix(vec3(0.25, 0.1, 0.21), vec3(0.36, 0.0, 0.51), length(st));
+    //finalCol *=  mix(vec3(0.9, 0.6, 0.31), vec3(1.8, 0.9, 0.451), length(st));
+    finalCol +=  mix(vec3(0.9, 0.6, 0.31), vec3(1.8, 0.9, 0.451), length(st));
     gl_FragColor = vec4(finalCol, 1.0);
 }
