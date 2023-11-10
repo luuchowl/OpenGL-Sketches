@@ -5,6 +5,7 @@
 uniform vec2 u_resolution;
 uniform float u_time;
 
+//cellular noise from : https://www.shadertoy.com/view/XsVSDm
 #define f length(fract(p*=m*=.8+.01*d++)-.5)
 #define C min(min(f,f),f)
 
