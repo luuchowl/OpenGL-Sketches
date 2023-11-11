@@ -12,6 +12,7 @@ uniform float u_time;
 void main()
 {
     vec2 st = gl_FragCoord.xy / u_resolution;
+    st.x *= u_resolution.x/u_resolution.y;
 
     float wt = u_time * 3.0;
     float wf = 9.0; //Frequency
