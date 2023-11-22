@@ -104,8 +104,8 @@ void main()
     
     outColor = mix(outColor, vec3(0.54, 0.7, 0.9), wave02);
 
-    //outColor = mix(outColor, vec3(0.2, 0.2, 0.7), wave01);
-    outColor = mix(outColor, color, wave01);
+    outColor = mix(outColor, vec3(0.2, 0.2, 0.7), wave01);
+    //outColor = mix(outColor, color, wave01);
     outColor += globeMask *  globeColor;
     
 
