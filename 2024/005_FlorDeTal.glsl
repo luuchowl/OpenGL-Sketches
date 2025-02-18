@@ -5,6 +5,7 @@ precision mediump float;
 
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform vec2 u_mouse;
 
 #define NUM_OF_PETALS 10.0
 
@@ -14,8 +15,6 @@ float random (in vec2 _st) {
         43758.5453123);
 }
 
-// Based on Morgan McGuire @morgan3d
-// https://www.shadertoy.com/view/4dS3Wd
 float noise (in vec2 _st) {
     vec2 i = floor(_st);
     vec2 f = fract(_st);
@@ -39,7 +38,11 @@ void main() {
     vec2 st = gl_FragCoord.xy/u_resolution.xy*2. -1.0;
     st.x *= u_resolution.x/u_resolution.y;
 
-    float t =u_time * 2.0;
+    float var = 1.0;
+
+    float mousePos= u_mouse.x/u_resolution.x -0.5;
+
+    float t =( mod(u_time * 4.0, 3.1415926 * 2.0 * (1.0/mousePos)) *var);
     //t = (sin(u_time * 3.0)*0.6  + cos(u_time * 2.0) * 0.6)*0.4;
 
     vec3 color = vec3(0.0);
@@ -48,7 +51,7 @@ void main() {
     vec3 col3 = vec3(0.5765, 0.051, 0.3843);
 
     float r = length(st);
-    float a = atan(st.y, st.x) / 3.141592 / 2.0 + sin(-t + r) * r * (.03);
+    float a = atan(st.y, st.x) / 3.141592 / 2.0 + (-t * mousePos )  * (.03);// delete atan
 
     float section = floor((a) * NUM_OF_PETALS);
     float ps = fract((a) * NUM_OF_PETALS);

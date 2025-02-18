@@ -25,10 +25,10 @@ void main()
 {
     vec2 st = gl_FragCoord.xy / u_resolution;
     float pulse = -pow(clamp(cos(u_time * 3.581 + st.y * 1.15), -0.0, 1.), 10.0) * 0.15;
-    pulse -= pow(clamp(sin((u_time - 2.0 + st.y * 1.0) * 2.581), 0., 1.), 10.0) * 0.10;
-    pulse -= pow(clamp(sin((u_time - 2.0 + st.y * 3.15) * 1.181), 0., 1.), 1.0) * 0.01;
-    pulse += sin(u_time) * 0.32;
-    pulse += cos(u_time *0.4) * 0.15;
+    //pulse -= pow(clamp(sin((u_time - 2.0 + st.y * 1.0) * 2.581), 0., 1.), 10.0) * 0.10;
+    //pulse -= pow(clamp(sin((u_time - 2.0 + st.y * 3.15) * 1.181), 0., 1.), 1.0) * 0.01;
+    //pulse += sin(u_time) * 0.32;
+    //pulse += cos(u_time *0.4) * 0.15;
     pulse *= 3.0; 
     st.x += (0.5 - st.x) * pow(distance(st.y , 0.5), 2.1 + pulse * 0.45 )  * (-27.0 + pulse  * 10.5 * pow((1.-distance(st.y , 0.5)), 3.));
     float n = 100.0;

@@ -4,6 +4,8 @@
 
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform vec2 u_mouse;
+
 
 #define PI 3.14159265359
 
@@ -50,7 +52,9 @@ vec2 rotate(vec2 st, float r)
 
 void main()
 {
-    vec3 col; 
+    vec3 col;
+
+    //animation time setup 
     float time = u_time;
 
     float duration = 4.0;
@@ -61,12 +65,14 @@ void main()
     float end = 3.0;
 
     float c_time = clamp(invLerp(start, end, time), 0.0, 1.0);
+    //end animation time setup
 
     vec2 st = gl_FragCoord.xy/u_resolution;
-    
+    vec2 mouse = u_mouse /u_resolution;
     st *= 2.0;
     st -= 1.0;
     
+
     
     st = rotate(st, PI * 1.0 * ceil(u_time * 0.25) );
     vec2 st_eye = st;
@@ -84,6 +90,8 @@ void main()
 
     col = vec3(min(plot, plot2));
     
+    //col.rgb = vec3(0.0, 0.0, mouse.x);
+    col.b = mouse.x +0.5; 
 
     gl_FragColor = vec4(col, 1.0);
 

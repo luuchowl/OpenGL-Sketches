@@ -5,60 +5,49 @@
 uniform vec2 u_resolution;
 uniform float u_time;
 
-//created a pseudo-random function
-float random(float x)
+vec2 r(vec2 c, float d)
 {
-    //return fract((x + 0.2) * 5114949.0122 /3.51239148 * x  );
-    return fract(x + .5) * .9 + fract((x + 0.2) * 5114949.0122 /3.51239148 * fract(x)  ) * 0.9;
+    return vec2(cos(d) * c.x -sin(d) * c.y, 
+                sin(d) * c.x +cos(d) * c.y);
 }
-
-float random (in vec2 _st) {
-    return fract(sin(dot(_st.xy,
-                         vec2(12.9898,78.233)))*
-        4371258.5453123);
-}
-
-// Based on Morgan McGuire @morgan3d
-// https://www.shadertoy.com/view/4dS3Wd
-float noise (in vec2 _st) {
-    vec2 i = floor(_st);
-    vec2 f = fract(_st);
-
-    // Four corners in 2D of a tile
-    float a = random(i);
-    float b = random(i + vec2(1.0, 0.0));
-    float c = random(i + vec2(0.0, 1.0));
-    float d = random(i + vec2(1.0, 1.0));
-
-    vec2 u = f * f * (3.0 - 2.0 * f);
-
-    return mix(a, b, u.x) +
-            (c - a)* u.y * (1.0 - u.x) +
-            (d - b) * u.x * u.y;
-}
-
 
 void main()
 {
     vec2 st = gl_FragCoord.xy / u_resolution; 
+    vec2 uv = st;
+    st.x += u_time * 0.1;
+    st.y *= mix(1.4, 1.0, uv.x);
+    //st.y += .5;
     st *= 2.0;
+    st.y *= 0.8;
     st -= 1.0;
-    st.x *= u_resolution.x / u_resolution.y;
+    float limiar = sin((st.x + sin(st.y )) * 3.141592 * 2.) * 0.2;
+    float horizonte = 1.0-step(limiar, st.y );
 
-    vec2 pst;
-    pst.x = length(st);
-    pst.y = atan(st.y, st.x) / 3.14159265;
+    vec2 st_2 = st;
+    st_2.x += -0.1;
+    float limiar_2 = sin((-st_2.x+ sin(st_2.y)) * 3.141592 * 2.) * 0.2;
+    float horizonte_2 = 1.0-step(limiar_2 , st.y );
+    
+    /*
+    for(int i = 0; i < 5; i++)
+    {
+        vec2 st_aux = st;
+        st_aux.x += float(i) * 0.4;
+        
+        vec2 st_parabola = st_aux * 4.;
+        st_parabola = r(st_parabola, 3.8);
+    //st_parabola.x += sin(st) ;
+        float parabola = step(st_parabola.x * st_parabola.x, st_parabola.y );
+        p += parabola;
+    }
+  */  
 
-    float sphere = step(0.5, pst.x);
+   
+    vec3 cor_ceu = vec3(0.3, 0.7, 0.8);
+    float mascara_duna = max(horizonte, horizonte_2);
+    vec3 cor_duna = mix(vec3(0.7137, 0.2353, 0.2353), vec3(0.8392, 0.7608, 0.3059), horizonte_2);
 
-    float stripe_offset = random(floor(pst.y * 10.0) + 0.2);
-    float st_stripes = fract(pst.y * 10.0);
-    float stripes = step(0.2,st_stripes);
-    stripes *= step(0.1 + stripe_offset * -0.02, pst.x);
-    stripes *= step(pst.x, 0.9 + stripe_offset * -0.1 );
-
-
-    float n = noise(gl_FragCoord.xy / u_resolution * 52.0);
-    gl_FragColor = vec4(vec3(n), 1.0);
-
+    gl_FragColor = vec4( mix(cor_ceu, cor_duna, mascara_duna), 1.0);
+    //gl_FragColor = vec4(cor_duna, 1.0);
 }
