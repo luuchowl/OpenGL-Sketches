@@ -6,20 +6,17 @@ precision mediump float;
 uniform vec2 u_resolution;
 uniform float u_time;
 
-
-
-
 void main() {
     vec2 st = gl_FragCoord.xy/u_resolution.xy*2. -1.0;
     st.x *= u_resolution.x/u_resolution.y;
-    //st.x -= 0.3;
+    st.x -= 0.3;
     float t = u_time * 2.0;
     float sphere_mask = step(length(st), 0.8);
     float sphere_mask_in = 1.0-step(length(st), 0.2);
 
     float r = length(st);
     float a = atan(st.x, st.y);
-    float offset = 0.0;
+    float offset = 0.5;
 
     float t1 = clamp((sin(t) *1.0 ), -1.0, 1.0) - offset;
     float t2 = clamp((cos(t) * 1.0 ), -1.0, 1.0) - offset;
