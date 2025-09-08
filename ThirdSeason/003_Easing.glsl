@@ -93,7 +93,7 @@ void main()
     float sphere9 = shapeSinSphere(start, end, time, st + vec2(0.0, 1.2), 0.4);
     float sphere10 = shapeInOutSphere(start, end, time, st + vec2(0.0, 1.4), 0.4);
     float sphere11 = shapeSinSphere(start, end, time, st + vec2(0.0, 1.2), 0.4);
-    float sphere12 = shapeInOutSphere(start, end, time, st + vec2(0.0, 1.4), 0.4);
+    float sphere12 = shapeInOutSphere(start, end, time, st + vec2(0.0, 1.6), 0.4);
     
 
     float shape = sphere + sphere2 + sphere3 + sphere4 + sphere5 + sphere6 + sphere7 + sphere8 + sphere9 + sphere10 + sphere11 + sphere12;

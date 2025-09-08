@@ -78,5 +78,5 @@ void main()
   color.g = (sin(u_time + color.r * 5.0) + 1.0) * 0.5 - 0.5;
   //color.b *= 0.4;
 
-  gl_FragColor = vec4(color, 0.0);
+  gl_FragColor = vec4(color, 1.0);
 }

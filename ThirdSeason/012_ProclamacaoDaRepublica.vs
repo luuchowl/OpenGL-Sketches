@@ -12,7 +12,7 @@ float diamond(vec2 st)
 
 float sphere(vec2 st)
 {
-    return step(length(st * 0.8), 0.3);
+    return step(length(st), 0.38);
 }
 
 float arc(vec2 st)

@@ -69,6 +69,7 @@ void main()
     {
 
       vec2 st = gl_FragCoord.xy/u_resolution.xy;
+      st.x = st.x * u_resolution.x / u_resolution.y;
 
       vec2 _st = st;
 
