@@ -64,7 +64,13 @@ float sat(float n)
 void main()
 {
   vec3 col;
-  float time = (u_time * 5.0  + sin(u_time * 0.5)) * 1.0;
+  float time =0.0;// (u_time * 5.0  + sin(u_time * 0.5)) * 1.0;
+
+  float duration = 4.0;
+  time = mod(time, duration);
+
+  float start = 1.0;
+  float end = 3.0;
 
   for(int i = 0; i < 3; i++)
   {
@@ -76,7 +82,7 @@ void main()
 
     st *= 2.0;
     st -= 1.0;
-    float n = noise(st * 5.0 + vec2(0.0, time));
+    float n = 0.0;//noise(st * 5.0 + vec2(0.0, time));
     st.y+= ((n ) - 0.5) * 0.5 * (sin((time - PI * 0.6) * 0.5) + 1.0) ;
     vec2 st2 = st;
     st.y = sat(abs(st.y) + 0.3);
