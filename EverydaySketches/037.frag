@@ -82,10 +82,6 @@ void main()
     st = rotate2D(st, (floor(st_real.x + st_real.y ) * PI * 0.5  ));
 
 
-
-
-
-
     float sphereA = mix(spheredf(st, vec2(-1.0, -1.0), 1.0),spheredf(st, vec2(-1.0, 1.0), 1.0), 0.0);
     float sphereB = mix(spheredf(st, vec2(1.0, 1.0), 1.0), spheredf(st, vec2(1.0, -1.0), 1.0), 0.0);
 
