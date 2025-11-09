@@ -62,7 +62,7 @@ void main()
 
     float loopa = fract(a * loopdi * 0.4 + random(vec2(loopdi, loopdi)));
     float loopda = floor(a * loopdi * 0.4 + random(vec2(loopdi, loopdi))); //applied in size
-    float mask = square(vec2(loopa, loopd), pow(random(vec2(loopdi, loopda)), 4.0));
+    float mask = square(vec2(loopa, loopd), pow(random(vec2(loopdi, loopda)), 2.0));
     //float mask = square(vec2(loopa, loopd), 0.96);
 
     gl_FragColor = vec4(d, mask, loopd, 1.0);
