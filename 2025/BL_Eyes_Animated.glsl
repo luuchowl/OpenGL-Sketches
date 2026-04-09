@@ -9,6 +9,11 @@ uniform float u_time;
 #define LOOPSX 0.4
 #define LOOPSB 3.3
 
+float invLerp (float a, float b, float v)
+{
+    return (v - a) / (b - a);
+}
+
 vec2 rotate(vec2 st, float angle)
 {
     return vec2(cos(angle) * st.x + sin(angle) * st.y, 
@@ -21,6 +26,16 @@ float random (in vec2 st)
     return fract(sin(dot(st.xy,
                          vec2(12.9898,78.233)))
                  * 43758.5453123);
+}
+
+float quartic(float t)
+{
+    t *=  2.0;
+    if(t < 1.0)
+        return 0.5*pow(t, 4.0);
+    t -= 2.0;
+     return -0.5 * (pow(t, 8.0)- 2.0);
+    
 }
 
 // 2D Noise based on Morgan McGuire @morgan3d
@@ -108,30 +123,50 @@ void main()
     vec2 st = gl_FragCoord.xy/u_resolution.xy;
     float d = distance(st.x, 0.5);
 
+    float time = u_time;
+    float duration = 4.0;
+    
+    time = mod(time * 2.0, duration);
+    
+    float start = 1.8;
+    float end = 2.2;
+
+    float nTime = clamp(invLerp(start, end, time), 0.0, 1.0);
+    nTime = quartic(nTime * 1.0);
+
     // ---- Properties
     vec3 bgColor = vec3(0.7255, 0.6784, 0.5255);
-    float stage = floor(mod(u_time, 2.0)); 
+    float stage = nTime; 
 
     // Eye
     float eyeSize = 0.2;
-    float eyeThickness = 0.1;
+    float eyeThickness = 0.05;
     vec3 eyeBgColor = vec3(0.5451, 0.5686, 0.6039);
     vec3 eyelashColor = vec3(0.2, 0.3922, 0.4745);
     vec3 outlineColor = vec3(0.451, 0.4745, 0.4824);
     float outlineSize = 0.02;
     float eyeBend = 0.1;
 
-    vec2 pupil_st = vec2(sin(u_time) * 0.1, -0.1);//-0.06 + sin(u_time) * -0.05);
+    //vec2 pupil_st = vec2(mix(0.1, -0.04, stage), -0.1);//-0.06 + sin(u_time) * -0.05);
+    float pupil_time = u_time *1.0;
+    float pupil_time_t = fract(pupil_time);
+    vec2 coord = mix( 
+        vec2(random(vec2(floor(pupil_time))), random(vec2(floor(pupil_time + 10.0)))) * 2.0 - 1.0, 
+        vec2(random(vec2(floor(pupil_time + 1.0))), random(vec2(floor(pupil_time + 11.0))))* 2.0 - 1.0, 
+        quartic(pupil_time_t)
+                );
+    //vec2 pupil_st = vec2((random(vec2(floor(u_time)))* 2.0 - 1.0) * 0.2, (random(vec2(floor(u_time)))* 2.0 - 1.0) * 0.05);
+    vec2 pupil_st = coord * vec2(0.2, 0.05) + vec2(0., -0.05);
     float pupilSize = mix(.1, 0.03, stage);
     vec3 pupilColor = vec3(0.4);
 
     // Eyebrows 
     vec3 browColor = vec3(0.2627, 0.2627, 0.2627);
     float eyebrowThickness = 0.03;
-    float browSize = mix(0.3, 0.2, stage);
+    float browSize = mix(0.3, 0.1, stage);
     float browBend = mix(0.1, -0.1, stage);
     float browAngle = mix(0.0, 0.2, stage);
-    vec2 eyebrowOffset = vec2(mix(0.0, -0.02, stage), 0.3);
+    vec2 eyebrowOffset = vec2(mix(0.0, 0.08, stage), 0.3);
    
     // ---- Logic 
 
