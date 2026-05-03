@@ -65,7 +65,7 @@ void main()
     //st *= 2.0;
     //st -= 10.0;
 
-    st.y += noise(st + 6.94) * 0.5 - 0.3;
+    st.y += noise(st.xy + 6.94) * 0.5 - 0.3;
     st *= 2.0;
     st -= 1.;
     
@@ -74,7 +74,7 @@ void main()
     float loopd = fract(d * LOOPS);
     float loopdi = floor(d * LOOPS);
     //vec2 rst = rotate(st, random(vec2(loopdi * 100.0) * 6.14) + u_time * loopdi * 0.005);
-    vec2 rst = rotate(st, random(vec2(loopdi * 100.0) * 6.14) + u_time *0.3 );
+    vec2 rst = rotate(st, random(vec2(loopdi * 100.0) * 6.14) + u_time *0.1 );
     float a = atan(rst.y, rst.x) / 3.14159265359; 
     
 
@@ -90,10 +90,10 @@ void main()
     gl_FragColor = vec4(d, mask, loopd, 1.0);
     //gl_FragColor = vec4(loopd,loopa, 0.0, 1.0);
     float brickID = random(vec2(loopdi, loopda));
-    vec3 brickColor = mix(mix(vec3(0.2588, 0.2235, 0.1451), vec3(0.1765, 0.4, 0.3804), brickID), vec3(0.1529, 0.0196, 0.2078), d*0.7);
+    vec3 brickColor = mix(mix(vec3(0.2588, 0.2235, 0.1451), vec3(0.1882, 0.3412, 0.3882), brickID), vec3(0.1529, 0.0196, 0.2078), d*0.7);
    
     vec3 negativeColor = mix(vec3(0.0588, 0.0784, 0.1412), brickColor, mask) ;
-    vec3 circlesColor = mix(negativeColor, mix(vec3(0.8784, 0.4745, 0.349) * 1.9, vec3(0.0941, 0.1373, 0.2588), pow(d, 1.8)), circlemask);
+    vec3 circlesColor = mix(negativeColor, mix(vec3(0.9255, 0.3529, 0.1765) * 1.9, vec3(0.0941, 0.1373, 0.2588), pow(d, 1.8)), circlemask);
     gl_FragColor = vec4(circlesColor , 1.0);
     //gl_FragColor = vec4(noise(st), 0.0, 0.0, 1.0);
 }
